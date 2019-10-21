@@ -1,4 +1,15 @@
 {% extends 'layout.html'%}
 {% block content%}
-    <h2>Hello world</h2>
+      {% for pitch in pitches %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ pitch.author }}</a>
+              <small class="text-muted">{{ pitch.date_posted }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ pitch.title }}</a></h2>
+            <p class="article-content">{{ pitch.pitch }}</p>
+          </div>
+        </article>
+    {% endfor %}
 {% endblock%}
