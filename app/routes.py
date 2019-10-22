@@ -5,26 +5,11 @@ from flask_login import login_user,current_user, logout_user, login_required
 from app.models import User, Pitch
 import secrets, os
 from PIL import Image
-pitches = [
-    {
-        'author': 'James Dean',
-        'title': 'Pitch 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018',
-        'category' :'Technology'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Pitch 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018',
-        'category': 'Biology'
-    }
-]
 
 @app.route('/')
 @app.route('/home')
 def home():
+    pitches = Pitch.query.all()
     return render_template('home.html', pitches = pitches)
 
 @app.route('/register', methods =['GET','POST'])
@@ -97,9 +82,10 @@ def account():
 
 @app.route('/pitch/new', methods =['GET', 'POST'])
 @login_required
-def new_post():
+def new_pitch():
     form = PitchForm()
     if form.validate_on_submit():
+        print(form.category.data)
         pitch = Pitch(title=form.title.data, content=form.content.data, category= form.category.data, author=current_user)
         db.session.add(pitch)
         db.session.commit()
