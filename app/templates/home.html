@@ -12,7 +12,7 @@
               <p class="card-text">{{pitch.content}}</p>
               <p class="card-text"><small class="text-muted">{{ pitch.date_posted.strftime('%Y-%M-%d') }}</small></p>
               <p class="card-text d-inline p-2"><small class="text-muted">{{ pitch.author.username }}</small></p>
-              <a href="{{url_for('add_comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary d-inline p-2">Comment</a>
+              <a href="{{url_for('comments.add_comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary d-inline p-2">Comment</a>
             </div>
           </div>
         </div>

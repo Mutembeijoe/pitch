@@ -1,10 +1,11 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
+from app.models import Pitch
 
 main = Blueprint('main',__name__)
 
-@app.route('/')
-@app.route('/home')
+@main.route('/')
+@main.route('/home')
 def home():
     pitches = Pitch.query.all()
     return render_template('home.html', pitches = pitches)

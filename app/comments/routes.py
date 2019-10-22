@@ -1,8 +1,14 @@
-from flask import Blueprint
+from flask import Blueprint, flash, url_for, redirect, render_template
+from flask_login import login_required, current_user
+
+
+from app.comments.forms import CommentForm
+from app.models import Comment
+from app import db
 
 comments = Blueprint('comments', __name__)
 
-@app.route('/add_comment/<int:pitch_id>', methods = ['GET', 'POST'])
+@comments.route('/add_comment/<int:pitch_id>', methods = ['GET', 'POST'])
 @login_required
 def add_comment(pitch_id):
     form = CommentForm()
@@ -12,6 +18,6 @@ def add_comment(pitch_id):
         db.session.add(comment)
         db.session.commit()
         flash('Your comment was added!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     return render_template('add_comment.html', form=form)
 

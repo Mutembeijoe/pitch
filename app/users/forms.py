@@ -1,9 +1,10 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, TextAreaField, SelectField
-from flask_wtf.file import FileField,FileAllowed
-from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError
-from app.models import User
 from flask_login import current_user
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+
+from app.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -52,16 +53,3 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
-
-
-class PitchForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    category = SelectField(u'Category', choices=[('tech', 'Technology'), ('physics', 'Physics'), ('environment', 'Environment')]
-                           ,validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-class CommentForm(FlaskForm):
-    description = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-

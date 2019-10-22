@@ -12,7 +12,15 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-from app import routes
+from app.users.routes import users
+from app.main.routes import main
+from app.comments.routes import comments
+from app.pitches.routes import pitches
+
+app.register_blueprint(users)
+app.register_blueprint(main)
+app.register_blueprint(comments)
+app.register_blueprint(pitches)

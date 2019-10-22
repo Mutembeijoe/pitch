@@ -1,3 +1,8 @@
+import secrets, os
+
+from PIL import Image
+from flask import current_app
+
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
