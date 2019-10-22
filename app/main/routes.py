@@ -8,8 +8,10 @@ main = Blueprint('main',__name__)
 @main.route('/home')
 @main.route('/home/<string:category>')
 def home(category = None):
-    print(category)
-    pitches = Pitch.query.all()
+    if category:
+        pitches = Pitch.query.filter_by(category = category)
+    else:
+        pitches = Pitch.query.all()
     return render_template('home.html', pitches = pitches)
 
 
