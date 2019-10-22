@@ -61,3 +61,7 @@ class PitchForm(FlaskForm):
                            ,validators=[DataRequired()])
     submit = SubmitField('Post')
 
+class CommentForm(FlaskForm):
+    description = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
+

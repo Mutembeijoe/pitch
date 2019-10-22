@@ -1,8 +1,8 @@
 from app import app, bcrypt, db
 from flask import render_template, flash, url_for, redirect, request, current_app
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PitchForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PitchForm, CommentForm
 from flask_login import login_user,current_user, logout_user, login_required
-from app.models import User, Pitch
+from app.models import User, Pitch, Comment
 import secrets, os
 from PIL import Image
 
@@ -85,10 +85,22 @@ def account():
 def new_pitch():
     form = PitchForm()
     if form.validate_on_submit():
-        print(form.category.data)
         pitch = Pitch(title=form.title.data, content=form.content.data, category= form.category.data, author=current_user)
         db.session.add(pitch)
         db.session.commit()
         flash('Your pitch has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_pitch.html', form = form)
+
+@app.route('/add_comment/<int:pitch_id>', methods = ['GET', 'POST'])
+@login_required
+def add_comment(pitch_id):
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(pitch_id = pitch_id, description =form.description.data,
+                      author=current_user)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment was added!', 'success')
+        return redirect(url_for('home'))
+    return render_template('add_comment.html', form=form)
