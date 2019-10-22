@@ -1,47 +1,63 @@
-{% extends 'layout.html'%}
+{% extends "layout.html" %}
 {% block content%}
-      {% for pitch in pitches %}
-      <div>
-        <div class="card mb-4" style="max-width: 540px;">
-            <div class="row no-gutters">
-              <div class=" col-sm-3">
-                <img src="{{url_for('static', filename='profile_avatars/' + pitch.author.image_file)}}" class="card-img" alt="...">
-              </div>
-              <div class="col-sm-9">
-                <div class="card-body">
-                  <h5 class="card-title">{{ pitch.title }}</h5>
-                  <p class="card-text">{{pitch.content}}</p>
-                  <p class="card-text"><small class="text-muted">{{ pitch.date_posted.strftime('%Y-%M-%d') }}</small></p>
-                  <p class="card-text d-inline p-2"><small class="text-muted">{{ pitch.author.username }}</small></p>
-                  <a href="{{url_for('comments.add_comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary d-inline p-2">Comment</a>
-              </div>
-            </div>
-         </div>
-        <div class="accordion" id="accordionExample">
-          <div class="card">
-            <div class="card-header" id="headingOne">
-              <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{pitch.id}}" aria-expanded="true" aria-controls="collapse{{pitch.id}}">
-                  View Comments
-                </button>
-              </h2>
-            </div>
-            <div id="collapse{{pitch.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-              <div class="card-body">
-                 {% for comment in pitch.comments%}
-                    <div class="card mb-2">
+    {% for pitch in pitches %}
+          <div>
+                <div class="card" style="max-width: 540px;">
+                    <div class="row no-gutters">
+                          <div class=" col-sm-3">
+                                <img src="{{url_for('static', filename='profile_avatars/' + pitch.author.image_file)}}" class="card-img" alt="...">
+                          </div>
+                          <div class="col-sm-9">
+                                <div class="card-body">
+                                      <h5 class="card-title">{{ pitch.title }}</h5>
+                                      <p class="card-text">{{pitch.content}}</p>
+                                      <p class="card-text"><small class="text-muted">{{ pitch.date_posted.strftime('%Y-%M-%d') }}</small></p>
+                                      <p class="card-text d-inline p-2"><small class="text-muted">{{ pitch.author.username }}</small></p>
+                                      <a href="{{url_for('comments.add_comment',pitch_id = pitch.id)}}" class="btn btn-outline-primary d-inline p-2">Comment</a>
+                                </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="accordion mb-5" id="accordionExample" style="max-width: 540px;">
+                  <div class="card">
+                    <div class="card-header" id="headingOne">
+                      <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{pitch.id}}" aria-expanded="true" aria-controls="collapse{{pitch.id}}">
+                          View Comments
+                        </button>
+                      </h2>
+                    </div>
+                    <div id="collapse{{pitch.id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                       <div class="card-body">
-                        <blockquote class="blockquote mb-0">
-                          <p>{{comment.description}}</p>
-                          <footer class="blockquote-footer">{{comment.author.username}}</footer>
-                        </blockquote>
+                         {% for comment in pitch.comments%}
+                            <div class="card mb-2">
+                              <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                  <p>{{comment.description}}</p>
+                                  <footer class="blockquote-footer">{{comment.author.username}}</footer>
+                                </blockquote>
+                              </div>
+                            </div>
+                         {% endfor%}
                       </div>
                     </div>
-                 {% endfor%}
-              </div>
-            </div>
+                  </div>
+                </div>
           </div>
-        </div>
-    </div>
     {% endfor %}
 {% endblock%}
+{% block sidebar %}
+    <div class="content-section">
+        <h3>Categories </h3>
+        <p class='text-muted'>View pitches from different categories.
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-light"> <a href="{{url_for('main.home')}}">All</a></li>
+                <li class="list-group-item list-group-item-light"> <a href="{{url_for('main.home', category = 'tech')}}">Technology</a></li>
+                <li class="list-group-item list-group-item-light"> <a href="{{url_for('main.home', category = 'physics')}}">Physics</a></li>
+                <li class="list-group-item list-group-item-light"> <a href="{{url_for('main.home', category = 'environment')}}">Environment</a></li>
+            </ul>
+        </p>
+    </div>
+
+{% endblock %}
+
