@@ -1,8 +1,8 @@
 from app import app, bcrypt, db
 from flask import render_template, flash, url_for, redirect, request, current_app
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PitchForm
 from flask_login import login_user,current_user, logout_user, login_required
-from app.models import User
+from app.models import User, Pitch
 import secrets, os
 from PIL import Image
 pitches = [
@@ -94,3 +94,15 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     return render_template('account.html', title='Account', user_avatar = user_avatar, form = form)
+
+@app.route('/pitch/new', methods =['GET', 'POST'])
+@login_required
+def new_post():
+    form = PitchForm()
+    if form.validate_on_submit():
+        pitch = Pitch(title=form.title.data, content=form.content.data, category= form.category.data, author=current_user)
+        db.session.add(pitch)
+        db.session.commit()
+        flash('Your pitch has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_pitch.html', form = form)
