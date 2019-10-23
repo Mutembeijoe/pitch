@@ -11,9 +11,9 @@ class DbUserPitchComment(unittest.TestCase):
         '''
          Set up method that will run before every Test
         '''
-        self.test_user = User(username="joe", email="test_user@tests.com", password='password' )
+        self.test_user = User(username="test_user", email="test_user@tests.com", password='password' )
         db.session.add(self.test_user)
-        db.session.commit
+        db.session.commit()
 
     def tearDown(self):
         self.user = User.query.filter_by(username= "joe").first()
@@ -21,7 +21,9 @@ class DbUserPitchComment(unittest.TestCase):
         db.session.commit()
 
     def test_save_user_to_db(self):
-        self.assertEqual((self.test_user, self.user))
+        user = User.query.filter_by(username='joe').first()
+        self.assertEqual('joe',user.username)
+
 
 
 if __name__ == "__main__":
