@@ -17,6 +17,8 @@ Pitch is a flask-python app that provides a platform where its  users will submi
 * You can view the live version of the app in [Live page](https://timeless-pitch.herokuapp.com "Pitch app")
 
 ## Screenshots
+![image](https://github.com/Mutembeijoe/pitch/blob/master/screenshots/home.png)
+
 
 ## Technologies Used
 + Python 3.7
