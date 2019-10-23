@@ -2,6 +2,7 @@ from flask import Blueprint, render_template,redirect
 from app import db
 from app.models import Pitch
 
+
 main = Blueprint('main',__name__)
 
 @main.route('/')
